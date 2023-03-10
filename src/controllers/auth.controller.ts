@@ -10,7 +10,7 @@ export const register = async (req: express.Request, res: express.Response) => {
     }
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      res.status(403).json("Email is taken");
+      return res.status(403).json("Email is taken").end();
     }
     const user = await createUser({
       email,
