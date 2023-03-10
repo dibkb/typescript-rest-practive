@@ -1,10 +1,9 @@
 import express from "express";
 import { createUser, getUserByEmail } from "../models/users.model";
-import authentication from "../utlis/authentication";
+import { encrypt } from "../utlis/authentication";
 export const register = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password, username } = req.body;
-    console.log(email, password, username);
     if (!email || !password || !username) {
       res.status(400).json("email password and username are required");
     }
@@ -16,7 +15,7 @@ export const register = async (req: express.Request, res: express.Response) => {
       email,
       username,
       authentication: {
-        password: await authentication(password),
+        password: await encrypt(password),
       },
     });
     return res.status(201).json(user).end();

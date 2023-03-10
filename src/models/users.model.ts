@@ -15,9 +15,8 @@ export const getUserByEmail = async (email: string) =>
 export const getUserBySessionToken = async (session: string) =>
   UserModel.findOne({ "authenticatiom.sessionToken": session });
 export const getUserById = async (id: string) => UserModel.findById(id);
-export const createUser = async (values: Record<string, any>) => {
-  new UserModel(values).save().then((user) => user.toObject());
-};
+export const createUser = async (values: Record<string, any>) =>
+  new UserModel(values).save().then((res) => res.toObject());
 export const deleteUserById = async (id: string) =>
   UserModel.findByIdAndDelete(id);
 export const updateUserById = async (id: string, values: Record<string, any>) =>
