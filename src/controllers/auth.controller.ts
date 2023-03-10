@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import config from "config";
 import { createUser, getUserByEmail } from "../models/users.model";
 import { encrypt } from "../utlis/authentication";
 export const register = async (req: express.Request, res: express.Response) => {
@@ -46,7 +47,10 @@ export const login = async (req: express.Request, res: express.Response) => {
       user.authentication.sessionToken = await encrypt(user._id.toString());
     await user.save();
     //   set cookie
-    res.cookie("DK-COOKIE", user.authentication?.sessionToken);
+    res.cookie(
+      config.get<string>("cookieName"),
+      user.authentication?.sessionToken
+    );
     return res.status(200).json(user).end();
   } catch (error) {
     return res.status(400).json((error as Error).message);

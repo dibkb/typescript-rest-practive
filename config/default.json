@@ -1,5 +1,6 @@
 {
   "port": 8000,
+  "cookieName": "DK-AUTH",
   "saltRounds": 10,
   "MONGOURL": "mongodb+srv://dibkb:zN5Acpn!Paz2+y9@cluster0.birkzi6.mongodb.net/?retryWrites=true&w=majority"
 }
