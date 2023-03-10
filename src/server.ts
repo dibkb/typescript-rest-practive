@@ -19,5 +19,5 @@ const server = http.createServer(app);
 server.listen(PORT, async () => {
   console.log(`Server running on port ${PORT} 🚀`);
   await connect();
+  app.use("/api", router());
 });
-app.use("/api", router());
