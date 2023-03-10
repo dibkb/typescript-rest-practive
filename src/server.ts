@@ -20,4 +20,4 @@ server.listen(PORT, async () => {
   console.log(`Server running on port ${PORT} 🚀`);
   await connect();
 });
-app.use("/", router());
+app.use("/api", router());
