@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import config from "config";
 import router from "./router";
+import connect from "./utlis/connect";
 // ================================================
 const PORT = config.get<number>("port");
 const app = express();
@@ -15,8 +16,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 const server = http.createServer(app);
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`Server running on port ${PORT} 🚀`);
+  await connect();
 });
-console.log(router);
 app.use("/", router());
