@@ -75,3 +75,32 @@ export const login = async (req: express.Request, res: express.Response) => {
     return res.status(400).json((error as Error).message);
   }
 };
+export const refresh = async (req: express.Request, res: express.Response) => {
+  try {
+    const cookies = req.cookies;
+    console.log(req.cookies);
+    if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+    const refreshToken = cookies.jwt;
+    jwt.verify(
+      refreshToken,
+      config.get<string>("refreshTokenSceret"),
+      async (err, decoded) => {
+        if (err) res.status(403);
+        console.log(decoded);
+        return res.status(200);
+      }
+    );
+  } catch (error) {
+    return res.status(500).json((error as Error).message);
+  }
+};
+export const logout = async (req: express.Request, res: express.Response) => {
+  try {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.status(204).end();
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
+    return res.status(200).json("Cookie cleared");
+  } catch (error) {
+    return res.status(500).json((error as Error).message);
+  }
+};
