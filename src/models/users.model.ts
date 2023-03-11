@@ -2,17 +2,12 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true },
-  authentication: {
-    password: { type: String, required: true, select: false },
-    sessionToken: { type: String, select: false },
-  },
+  password: { type: String, required: true, select: false },
 });
 export const UserModel = mongoose.model("User", UserSchema);
 //-------------actions--------------------
 export const getUsers = async () => UserModel.find();
 export const getUserByEmail = (email: string) => UserModel.findOne({ email });
-export const getUserBySessionToken = async (session: string) =>
-  UserModel.findOne({ "authenticatiom.sessionToken": session });
 export const getUserById = async (id: string) => UserModel.findById(id);
 export const createUser = async (values: Record<string, any>) =>
   new UserModel(values).save().then((res) => res.toObject());

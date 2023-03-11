@@ -2,5 +2,7 @@
   "port": 8000,
   "cookieName": "DK-AUTH",
   "saltRounds": 10,
-  "MONGOURL": "mongodb+srv://dibkb:zN5Acpn!Paz2+y9@cluster0.birkzi6.mongodb.net/?retryWrites=true&w=majority"
+  "MONGOURL": "mongodb+srv://dibkb:zN5Acpn!Paz2+y9@cluster0.birkzi6.mongodb.net/?retryWrites=true&w=majority",
+  "accessTokenSceret": "047cd6a5b4ecf39483530b6187dc803337376d756a4a634798543e53747685380a691fef86e4c1b6bb5bb99e1c19bd12b8c722369db19f72a757c9a78a8ba7563e731f53efe90bf705d0027a798ca5ed",
+  "refreshTokenSceret": "d00472a5adbab89f44f59f890790643445786ce349cb66ab9b0bb78d3f74eef3f51c4ada5675a2bebc18732f64dc2b755a6c7d39c6ab2685a591cdb5a6a3039ca9152b56108112de75adfbdb131c9369"
 }
