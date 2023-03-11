@@ -8,6 +8,8 @@ export const UserModel = mongoose.model("User", UserSchema);
 //-------------actions--------------------
 export const getUsers = async () => UserModel.find();
 export const getUserByEmail = (email: string) => UserModel.findOne({ email });
+export const getUserByUsername = (username: string) =>
+  UserModel.findOne({ username });
 export const getUserById = async (id: string) => UserModel.findById(id);
 export const createUser = async (values: Record<string, any>) =>
   new UserModel(values).save().then((res) => res.toObject());

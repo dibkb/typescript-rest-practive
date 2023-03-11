@@ -2,7 +2,11 @@ import express from "express";
 import bcrypt from "bcrypt";
 import config from "config";
 import jwt from "jsonwebtoken";
-import { createUser, getUserByEmail } from "../models/users.model";
+import {
+  createUser,
+  getUserByEmail,
+  getUserByUsername,
+} from "../models/users.model";
 import { encrypt } from "../utlis/authentication";
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -77,17 +81,30 @@ export const login = async (req: express.Request, res: express.Response) => {
 };
 export const refresh = async (req: express.Request, res: express.Response) => {
   try {
-    const cookies = req.cookies;
-    console.log(req.cookies);
-    if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
-    const refreshToken = cookies.jwt;
+    const { jwt: refreshToken } = req.cookies;
+    if (!refreshToken) return res.status(401).json({ message: "Unauthorized" });
     jwt.verify(
       refreshToken,
       config.get<string>("refreshTokenSceret"),
       async (err, decoded) => {
         if (err) res.status(403);
-        console.log(decoded);
-        return res.status(200);
+        const foundUser = await getUserByUsername(decoded.userInfo.username);
+        if (!foundUser) {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
+        const accessToken = jwt.sign(
+          {
+            userInfo: {
+              username: foundUser.username,
+              email: foundUser.email,
+            },
+          },
+          config.get<string>("accessTokenSceret"),
+          {
+            expiresIn: "6m",
+          }
+        );
+        return res.status(200).json({ accessToken });
       }
     );
   } catch (error) {
